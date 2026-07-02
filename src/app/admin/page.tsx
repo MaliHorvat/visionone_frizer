@@ -10,8 +10,8 @@ export default async function AdminPage() {
   return (
     <div className="min-h-screen bg-background">
       <AdminNav user={session} />
-      <main className="mx-auto max-w-6xl px-4 py-8">
-        <h1 className="mb-6 text-2xl font-semibold">Naročeni termini</h1>
+      <main className="mx-auto max-w-6xl px-4 py-5 sm:py-8">
+        <h1 className="mb-4 text-xl font-semibold sm:mb-6 sm:text-2xl">Naročeni termini</h1>
         <AppointmentsList stylistId={session.stylistId} isAdmin={session.role === "ADMIN"} />
       </main>
     </div>

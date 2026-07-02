@@ -130,7 +130,7 @@ export function BookingForm() {
           </div>
         </div>
         {selectedDate && selectedTime && (
-          <p className="mt-2 text-muted">
+          <p className="mt-2 break-words text-muted">
             {format(parse(selectedDate, "yyyy-MM-dd", new Date()), "EEEE, d. MMMM yyyy", {
               locale: sl,
             })}{" "}
@@ -160,7 +160,7 @@ export function BookingForm() {
 
   if (step === "success" && confirmation) {
     return (
-      <div className="mx-auto max-w-md rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
+      <div className="mx-auto max-w-md rounded-2xl border border-border bg-card p-5 text-center shadow-sm sm:p-8">
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-2xl text-green-600">
           ✓
         </div>
@@ -169,29 +169,29 @@ export function BookingForm() {
           Hvala, {customerName}. Vaš termin je bil uspešno naročen. Kmalu vas pričakujemo!
         </p>
         <dl className="space-y-3 rounded-xl bg-background p-4 text-left text-sm">
-          <div className="flex justify-between">
+          <div className="flex flex-col gap-0.5 sm:flex-row sm:justify-between">
             <dt className="text-muted">Frizer</dt>
-            <dd className="font-medium">{confirmation.stylist}</dd>
+            <dd className="font-medium sm:text-right">{confirmation.stylist}</dd>
           </div>
-          <div className="flex justify-between">
+          <div className="flex flex-col gap-0.5 sm:flex-row sm:justify-between">
             <dt className="text-muted">Storitev</dt>
-            <dd className="font-medium">{confirmation.service}</dd>
+            <dd className="font-medium sm:text-right">{confirmation.service}</dd>
           </div>
-          <div className="flex justify-between">
+          <div className="flex flex-col gap-0.5 sm:flex-row sm:justify-between">
             <dt className="text-muted">Datum</dt>
-            <dd className="font-medium">
+            <dd className="font-medium sm:text-right">
               {format(parse(confirmation.date, "yyyy-MM-dd", new Date()), "d. MMMM yyyy", {
                 locale: sl,
               })}
             </dd>
           </div>
-          <div className="flex justify-between">
+          <div className="flex flex-col gap-0.5 sm:flex-row sm:justify-between">
             <dt className="text-muted">Ura</dt>
-            <dd className="font-medium">{confirmation.time}</dd>
+            <dd className="font-medium sm:text-right">{confirmation.time}</dd>
           </div>
-          <div className="flex justify-between border-t border-border pt-2">
+          <div className="flex flex-col gap-0.5 border-t border-border pt-2 sm:flex-row sm:justify-between">
             <dt className="text-muted">Cena</dt>
-            <dd className="font-semibold text-primary">{formatPrice(confirmation.price)}</dd>
+            <dd className="font-semibold text-primary sm:text-right">{formatPrice(confirmation.price)}</dd>
           </div>
         </dl>
         <button
@@ -205,9 +205,9 @@ export function BookingForm() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="mb-8">
-        <div className="mb-2 flex gap-2">
+    <div className="mx-auto w-full max-w-2xl">
+      <div className="mb-6 sm:mb-8">
+        <div className="mb-2 flex gap-1.5 sm:gap-2">
           {STEPS.map((s, i) => (
             <div
               key={s.key}
@@ -217,9 +217,11 @@ export function BookingForm() {
             />
           ))}
         </div>
-        <div className="flex justify-between text-xs text-muted">
+        <div className="flex justify-between gap-1 text-[10px] text-muted sm:text-xs">
           {STEPS.map((s) => (
-            <span key={s.key}>{s.label}</span>
+            <span key={s.key} className="truncate text-center">
+              {s.label}
+            </span>
           ))}
         </div>
       </div>
@@ -227,7 +229,7 @@ export function BookingForm() {
       {step === "stylist" && (
         <div className="space-y-4">
           <h3 className="text-lg font-medium">Izberite frizerja</h3>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
             {stylists.map((stylist) => (
               <button
                 key={stylist.id}
@@ -237,12 +239,14 @@ export function BookingForm() {
                   setSelectedService(null);
                   setStep("service");
                 }}
-                className="flex items-start gap-4 rounded-xl border border-border bg-card p-5 text-left transition hover:border-primary hover:shadow-md"
+                className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition active:scale-[0.98] hover:border-primary hover:shadow-md sm:items-start sm:gap-4 sm:p-5"
               >
-                <StylistAvatar name={stylist.name} imageUrl={stylist.imageUrl} size="lg" />
-                <div>
+                <StylistAvatar name={stylist.name} imageUrl={stylist.imageUrl} size="md" />
+                <div className="min-w-0 flex-1">
                   <p className="font-medium">{stylist.name}</p>
-                  {stylist.bio && <p className="mt-1 text-sm text-muted">{stylist.bio}</p>}
+                  {stylist.bio && (
+                    <p className="mt-1 line-clamp-2 text-sm text-muted">{stylist.bio}</p>
+                  )}
                   <p className="mt-2 text-xs text-muted">
                     {stylist.services.length}{" "}
                     {stylist.services.length === 1 ? "storitev" : "storitev"}
@@ -280,16 +284,16 @@ export function BookingForm() {
                   setSelectedService(service);
                   setStep("datetime");
                 }}
-                className="flex w-full items-center justify-between rounded-xl border border-border bg-card p-4 text-left transition hover:border-primary hover:shadow-md"
+                className="flex w-full flex-col gap-3 rounded-xl border border-border bg-card p-4 text-left transition active:scale-[0.98] hover:border-primary hover:shadow-md sm:flex-row sm:items-center sm:justify-between"
               >
-                <div>
+                <div className="min-w-0 flex-1">
                   <p className="font-medium">{service.name}</p>
                   {service.description && (
                     <p className="mt-0.5 text-sm text-muted">{service.description}</p>
                   )}
                   <p className="mt-1 text-sm text-muted">{service.durationMin} min</p>
                 </div>
-                <span className="font-semibold text-primary">
+                <span className="shrink-0 self-start font-semibold text-primary sm:self-center">
                   {formatPrice(service.priceCents)}
                 </span>
               </button>
@@ -331,13 +335,13 @@ export function BookingForm() {
                 Za izbrani dan ni prostih terminov. Izberite drug datum v koledarju.
               </p>
             ) : (
-              <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
+              <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6">
                 {slots.map((slot) => (
                   <button
                     key={slot}
                     type="button"
                     onClick={() => setSelectedTime(slot)}
-                    className={`rounded-lg border px-3 py-2.5 text-sm font-medium transition ${
+                    className={`touch-target rounded-lg border px-2 py-3 text-sm font-medium transition sm:px-3 sm:py-2.5 ${
                       selectedTime === slot
                         ? "border-primary bg-primary text-white"
                         : "border-border bg-card hover:border-primary"
@@ -354,7 +358,7 @@ export function BookingForm() {
             <button
               type="button"
               onClick={() => setStep("details")}
-              className="w-full rounded-xl bg-primary py-3 font-medium text-white transition hover:bg-primary-dark"
+              className="touch-target w-full rounded-xl bg-primary py-3.5 font-medium text-white transition hover:bg-primary-dark active:scale-[0.98]"
             >
               Nadaljuj – {selectedTime}
             </button>
@@ -402,6 +406,9 @@ export function BookingForm() {
               pattern="[0-9+\s\-]{6,}"
               title="Vnesite veljavno telefonsko številko"
             />
+            <p className="mt-1 text-xs text-muted">
+              Na to številko vam pošljemo SMS opomnik dan pred terminom.
+            </p>
           </div>
 
           <div>
@@ -429,7 +436,7 @@ export function BookingForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-xl bg-primary py-3 font-medium text-white transition hover:bg-primary-dark disabled:opacity-50"
+            className="touch-target w-full rounded-xl bg-primary py-3.5 font-medium text-white transition hover:bg-primary-dark active:scale-[0.98] disabled:opacity-50"
           >
             {submitting ? "Rezervacija..." : "Potrdi rezervacijo"}
           </button>

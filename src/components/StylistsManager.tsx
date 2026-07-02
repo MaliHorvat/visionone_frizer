@@ -168,11 +168,11 @@ export function StylistsManager() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-medium">Frizerji</h2>
         <button
           onClick={openCreate}
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-dark"
+          className="touch-target w-full rounded-lg bg-primary px-4 py-3 text-sm font-medium text-white hover:bg-primary-dark sm:w-auto sm:py-2"
         >
           + Dodaj frizerja
         </button>
@@ -247,30 +247,32 @@ export function StylistsManager() {
                   const hour = form.workingHours.find((h) => h.dayOfWeek === dayOfWeek);
                   const active = !!hour;
                   return (
-                    <div key={dayOfWeek} className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        checked={active}
-                        onChange={() => toggleDay(dayOfWeek)}
-                        className="h-4 w-4"
-                      />
-                      <span className="w-24 text-sm">{dayName}</span>
+                    <div key={dayOfWeek} className="flex flex-col gap-2 rounded-lg border border-border p-3 sm:flex-row sm:items-center sm:gap-3 sm:border-0 sm:p-0">
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          checked={active}
+                          onChange={() => toggleDay(dayOfWeek)}
+                          className="h-5 w-5"
+                        />
+                        <span className="w-24 text-sm font-medium">{dayName}</span>
+                      </div>
                       {active && hour && (
-                        <>
+                        <div className="flex items-center gap-2 pl-8 sm:pl-0">
                           <input
                             type="time"
                             value={hour.startTime}
                             onChange={(e) => updateHour(dayOfWeek, "startTime", e.target.value)}
-                            className="rounded border border-border px-2 py-1 text-sm"
+                            className="w-full rounded border border-border px-2 py-2 text-sm sm:w-auto"
                           />
                           <span className="text-muted">–</span>
                           <input
                             type="time"
                             value={hour.endTime}
                             onChange={(e) => updateHour(dayOfWeek, "endTime", e.target.value)}
-                            className="rounded border border-border px-2 py-1 text-sm"
+                            className="w-full rounded border border-border px-2 py-2 text-sm sm:w-auto"
                           />
-                        </>
+                        </div>
                       )}
                     </div>
                   );
@@ -294,18 +296,18 @@ export function StylistsManager() {
             )}
           </div>
 
-          <div className="mt-4 flex gap-2">
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
             <button
               type="submit"
               disabled={saving}
-              className="rounded-lg bg-primary px-6 py-2 text-sm font-medium text-white hover:bg-primary-dark disabled:opacity-50"
+              className="touch-target rounded-lg bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primary-dark disabled:opacity-50 sm:py-2"
             >
               {saving ? "Shranjevanje..." : "Shrani"}
             </button>
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="rounded-lg border border-border px-6 py-2 text-sm hover:bg-background"
+              className="touch-target rounded-lg border border-border px-6 py-3 text-sm hover:bg-background sm:py-2"
             >
               Prekliči
             </button>

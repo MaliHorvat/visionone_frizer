@@ -122,11 +122,11 @@ export function ServicesManager() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-medium">Storitve</h2>
         <button
           onClick={openCreate}
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-dark"
+          className="touch-target w-full rounded-lg bg-primary px-4 py-3 text-sm font-medium text-white hover:bg-primary-dark sm:w-auto sm:py-2"
         >
           + Dodaj storitev
         </button>
@@ -205,18 +205,18 @@ export function ServicesManager() {
             )}
           </div>
 
-          <div className="mt-4 flex gap-2">
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
             <button
               type="submit"
               disabled={saving}
-              className="rounded-lg bg-primary px-6 py-2 text-sm font-medium text-white hover:bg-primary-dark disabled:opacity-50"
+              className="touch-target rounded-lg bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primary-dark disabled:opacity-50 sm:py-2"
             >
               {saving ? "Shranjevanje..." : "Shrani"}
             </button>
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="rounded-lg border border-border px-6 py-2 text-sm hover:bg-background"
+              className="touch-target rounded-lg border border-border px-6 py-3 text-sm hover:bg-background sm:py-2"
             >
               Prekliči
             </button>
@@ -228,11 +228,11 @@ export function ServicesManager() {
         {services.map((service) => (
           <div
             key={service.id}
-            className={`flex items-center justify-between rounded-xl border bg-card p-4 ${
+            className={`flex flex-col gap-4 rounded-xl border bg-card p-4 sm:flex-row sm:items-center sm:justify-between ${
               service.active ? "border-border" : "border-border/50 opacity-60"
             }`}
           >
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <h3 className="font-medium">{service.name}</h3>
                 {!service.active && (
@@ -254,16 +254,16 @@ export function ServicesManager() {
                 )}
               </p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex shrink-0 gap-2">
               <button
                 onClick={() => openEdit(service)}
-                className="rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-background"
+                className="touch-target flex-1 rounded-lg border border-border px-3 py-2.5 text-sm hover:bg-background sm:flex-none sm:py-1.5"
               >
                 Uredi
               </button>
               <button
                 onClick={() => toggleActive(service)}
-                className="rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-background"
+                className="touch-target flex-1 rounded-lg border border-border px-3 py-2.5 text-sm hover:bg-background sm:flex-none sm:py-1.5"
               >
                 {service.active ? "Deaktiviraj" : "Aktiviraj"}
               </button>

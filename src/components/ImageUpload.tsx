@@ -34,15 +34,15 @@ export function ImageUpload({ value, onChange, label = "Slika" }: ImageUploadPro
   return (
     <div>
       <label className="mb-2 block text-sm font-medium">{label}</label>
-      <div className="flex items-start gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
         {value ? (
-          <img src={value} alt="Predogled" className="h-20 w-20 rounded-full object-cover" />
+          <img src={value} alt="Predogled" className="mx-auto h-20 w-20 rounded-full object-cover sm:mx-0" />
         ) : (
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-background text-muted">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-background text-muted sm:mx-0">
             ?
           </div>
         )}
-        <div className="flex-1 space-y-2">
+        <div className="flex-1 space-y-2 text-center sm:text-left">
           <input
             ref={inputRef}
             type="file"

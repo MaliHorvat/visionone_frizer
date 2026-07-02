@@ -62,38 +62,38 @@ export function BookingCalendar({
   ];
 
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="w-full rounded-xl border border-border bg-card p-3 sm:p-4">
+      <div className="mb-3 flex items-center justify-between gap-2 sm:mb-4">
         <button
           type="button"
           onClick={() => setViewDate(subMonths(viewDate, 1))}
-          className="rounded-lg px-3 py-1.5 text-sm hover:bg-background"
+          className="touch-target shrink-0 rounded-lg px-3 py-2 text-sm hover:bg-background"
           aria-label="Prejšnji mesec"
         >
           ←
         </button>
-        <h4 className="font-medium capitalize">
+        <h4 className="min-w-0 truncate text-center text-sm font-medium capitalize sm:text-base">
           {format(viewDate, "LLLL yyyy", { locale: sl })}
         </h4>
         <button
           type="button"
           onClick={() => setViewDate(addMonths(viewDate, 1))}
-          className="rounded-lg px-3 py-1.5 text-sm hover:bg-background"
+          className="touch-target shrink-0 rounded-lg px-3 py-2 text-sm hover:bg-background"
           aria-label="Naslednji mesec"
         >
           →
         </button>
       </div>
 
-      <div className="mb-2 grid grid-cols-7 gap-1">
+      <div className="mb-1 grid grid-cols-7 gap-0.5 sm:gap-1">
         {WEEKDAYS.map((d) => (
-          <div key={d} className="py-1 text-center text-xs font-medium text-muted">
+          <div key={d} className="py-1 text-center text-[10px] font-medium text-muted sm:text-xs">
             {d}
           </div>
         ))}
       </div>
 
-      <div className={`grid grid-cols-7 gap-1 ${loading ? "opacity-50" : ""}`}>
+      <div className={`grid grid-cols-7 gap-0.5 sm:gap-1 ${loading ? "opacity-50" : ""}`}>
         {cells.map((day, i) => {
           if (!day) return <div key={`empty-${i}`} />;
 
@@ -110,7 +110,7 @@ export function BookingCalendar({
               type="button"
               disabled={disabled}
               onClick={() => onSelect(dateStr)}
-              className={`relative flex aspect-square flex-col items-center justify-center rounded-lg text-sm transition ${
+              className={`relative flex min-h-[40px] flex-col items-center justify-center rounded-lg text-xs transition sm:min-h-[44px] sm:text-sm ${
                 isSelected
                   ? "bg-primary font-semibold text-white"
                   : disabled

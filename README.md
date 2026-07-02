@@ -9,6 +9,7 @@ Spletna aplikacija za naročanje terminov v frizerskem salonu. Stranke se naroč
 - **Admin panel** – pregled in upravljanje naročenih terminov
 - **Upravljanje uporabnikov** – administrator dodaja osebje
 - **Vloge** – ADMIN (poln dostop) in STAFF (pregled terminov)
+- **SMS opomniki** – avtomatsko obvestilo strankam dan pred terminom (Twilio)
 
 ## Tehnologije
 
@@ -100,6 +101,44 @@ npm run db:seed
 1. V Vercel: **Settings → Domains** → dodajte svojo domeno
 2. Pri Neoserv DNS nastavite CNAME zapis na `cname.vercel-dns.com`
 3. Posodobite `NEXT_PUBLIC_APP_URL` na produkcijsko domeno
+
+## SMS opomniki (Twilio)
+
+Aplikacija lahko avtomatsko pošlje **SMS opomnik dan pred terminom** vsem strankam s statusom Čaka ali Potrjeno.
+
+### Nastavitev Twilio
+
+1. Ustvarite račun na [twilio.com](https://www.twilio.com)
+2. V konzoli pridobite **Account SID** in **Auth Token**
+3. Kupite ali pridobite **telefonsko številko** (podpora za Slovenijo)
+4. V Vercel (ali `.env`) dodajte:
+
+```env
+TWILIO_ACCOUNT_SID="AC..."
+TWILIO_AUTH_TOKEN="..."
+TWILIO_PHONE_NUMBER="+386..."
+SALON_NAME="Vaš Salon"
+SALON_PHONE="040 123 456"
+SALON_TIMEZONE="Europe/Ljubljana"
+CRON_SECRET="nakljucen-dolg-niz"
+```
+
+### Kako deluje
+
+- **Vercel Cron** teče vsak dan ob **8:00 UTC** (9:00 po slovenskem času pozimi)
+- Poišče vse termine za **jutri** in pošlje SMS
+- Vsak termin dobi samo **en opomnik** (polje `reminderSentAt` v bazi)
+- Preklicani in opravljeni termini se preskočijo
+
+### Ročni test
+
+```bash
+curl -H "Authorization: Bearer VAS_CRON_SECRET" https://vasa-domena.si/api/cron/send-reminders
+```
+
+### Stroški
+
+Twilio zaračunava po sporočilu (pribl. 0,05–0,10 € na SMS v Sloveniji). Preverite cene na twilio.com.
 
 ## Privzeti administrator
 

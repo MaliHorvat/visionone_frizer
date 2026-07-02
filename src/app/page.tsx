@@ -1,38 +1,42 @@
-import Link from "next/link";
-import { BookingForm } from "@/components/BookingForm";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { HeroSection } from "@/components/site/HeroSection";
+import { ServicesSection } from "@/components/site/ServicesSection";
+import { AboutSection } from "@/components/site/AboutSection";
+import { GallerySection } from "@/components/site/GallerySection";
+import { ContactSection } from "@/components/site/ContactSection";
+import { prisma } from "@/lib/prisma";
+import { salonConfig } from "@/lib/salon-config";
 
-export default function HomePage() {
+export const metadata = {
+  title: `${salonConfig.name} – Frizerski salon`,
+  description: salonConfig.description,
+};
+
+export default async function HomePage() {
+  const services = await prisma.service.findMany({
+    where: { active: true },
+    orderBy: { name: "asc" },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      durationMin: true,
+      priceCents: true,
+    },
+  });
+
   return (
-    <div className="min-h-screen">
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-5">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-primary">Salon</h1>
-            <p className="text-sm text-muted">Rezervacija termina</p>
-          </div>
-          <Link
-            href="/admin/prijava"
-            className="text-sm text-muted transition hover:text-primary"
-          >
-            Prijava za osebje
-          </Link>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-5xl px-4 py-10">
-        <section className="mb-10 text-center">
-          <h2 className="mb-3 text-3xl font-semibold">Naročite se na termin</h2>
-          <p className="mx-auto max-w-xl text-muted">
-            Izberite frizerja, storitev in prost termin. Prijava ni potrebna.
-          </p>
-        </section>
-
-        <BookingForm />
+    <div className="min-h-screen overflow-x-hidden">
+      <SiteHeader />
+      <main>
+        <HeroSection />
+        <ServicesSection services={services} />
+        <AboutSection />
+        <GallerySection />
+        <ContactSection />
       </main>
-
-      <footer className="mt-16 border-t border-border py-6 text-center text-sm text-muted">
-        © {new Date().getFullYear()} Salon – Vse pravice pridržane
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

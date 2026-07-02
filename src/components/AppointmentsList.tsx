@@ -104,18 +104,18 @@ export function AppointmentsList({
         </div>
       )}
 
-      <div className="mb-4 flex flex-wrap gap-3">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <input
           type="search"
           placeholder="Išči po imenu, telefonu..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="min-w-[200px] flex-1 rounded-lg border border-border bg-card px-4 py-2 text-sm"
+          className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm sm:min-w-[200px] sm:flex-1"
         />
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded-lg border border-border bg-card px-3 py-2 text-sm"
+          className="w-full rounded-lg border border-border bg-card px-3 py-3 text-sm sm:w-auto"
         >
           <option value="all">Vsi statusi</option>
           <option value="PENDING">Čaka</option>
@@ -128,7 +128,7 @@ export function AppointmentsList({
       <div className="mb-6 flex gap-2">
         <button
           onClick={() => setFilter("upcoming")}
-          className={`rounded-lg px-4 py-2 text-sm ${
+          className={`touch-target flex-1 rounded-lg px-4 py-2.5 text-sm sm:flex-none ${
             filter === "upcoming" ? "bg-primary text-white" : "bg-card text-muted"
           }`}
         >
@@ -136,7 +136,7 @@ export function AppointmentsList({
         </button>
         <button
           onClick={() => setFilter("all")}
-          className={`rounded-lg px-4 py-2 text-sm ${
+          className={`touch-target flex-1 rounded-lg px-4 py-2.5 text-sm sm:flex-none ${
             filter === "all" ? "bg-primary text-white" : "bg-card text-muted"
           }`}
         >
@@ -153,11 +153,11 @@ export function AppointmentsList({
           {filtered.map((apt) => (
             <div
               key={apt.id}
-              className="rounded-xl border border-border bg-card p-5 shadow-sm"
+              className="rounded-xl border border-border bg-card p-4 shadow-sm sm:p-5"
             >
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-3">
+              <div className="flex flex-col gap-4">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                     <StylistAvatar
                       name={apt.stylist.name}
                       imageUrl={apt.stylist.imageUrl}
@@ -172,29 +172,36 @@ export function AppointmentsList({
                       {STATUS_LABELS[apt.status] ?? apt.status}
                     </span>
                   </div>
-                  <p className="mt-1 text-sm text-muted">
+                  <p className="mt-2 text-sm text-muted">
                     {format(new Date(apt.startTime), "EEEE, d. MMMM yyyy · HH:mm", { locale: sl })} –{" "}
                     {format(new Date(apt.endTime), "HH:mm")}
                   </p>
-                  <p className="mt-2 text-sm">
-                    <span className="text-muted">Frizer:</span> {apt.stylist.name} ·{" "}
+                  <p className="mt-2 break-words text-sm">
+                    <span className="text-muted">Frizer:</span> {apt.stylist.name}
+                    <br className="sm:hidden" />
+                    <span className="hidden sm:inline"> · </span>
                     <span className="text-muted">Storitev:</span> {apt.service.name} (
                     {formatPrice(apt.service.priceCents)})
                   </p>
-                  <p className="mt-1 text-sm text-muted">
+                  <p className="mt-1 break-all text-sm text-muted">
                     📞 {apt.customerPhone}
-                    {apt.customerEmail && ` · ✉ ${apt.customerEmail}`}
+                    {apt.customerEmail && (
+                      <>
+                        <br />
+                        ✉ {apt.customerEmail}
+                      </>
+                    )}
                   </p>
                   {apt.notes && (
                     <p className="mt-2 text-sm italic text-muted">Opomba: {apt.notes}</p>
                   )}
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 border-t border-border pt-3 sm:border-0 sm:pt-0">
                   {apt.status === "PENDING" && (
                     <button
                       onClick={() => updateStatus(apt.id, "CONFIRMED")}
-                      className="rounded-lg bg-green-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-green-700"
+                      className="touch-target flex-1 rounded-lg bg-green-600 px-3 py-2.5 text-xs font-medium text-white hover:bg-green-700 sm:flex-none sm:py-1.5"
                     >
                       Potrdi
                     </button>
@@ -203,13 +210,13 @@ export function AppointmentsList({
                     <>
                       <button
                         onClick={() => updateStatus(apt.id, "COMPLETED")}
-                        className="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700"
+                        className="touch-target flex-1 rounded-lg bg-blue-600 px-3 py-2.5 text-xs font-medium text-white hover:bg-blue-700 sm:flex-none sm:py-1.5"
                       >
                         Opravljeno
                       </button>
                       <button
                         onClick={() => updateStatus(apt.id, "CANCELLED")}
-                        className="rounded-lg border border-red-300 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50"
+                        className="touch-target flex-1 rounded-lg border border-red-300 px-3 py-2.5 text-xs font-medium text-red-600 hover:bg-red-50 sm:flex-none sm:py-1.5"
                       >
                         Prekliči
                       </button>

@@ -8,7 +8,7 @@ export default async function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-sm">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
         <h1 className="mb-2 text-center text-2xl font-semibold text-primary">Prijava</h1>
         <p className="mb-6 text-center text-sm text-muted">Dostop za osebje salona</p>
         <LoginForm />

@@ -84,11 +84,11 @@ export function UsersManager() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-medium">Uporabniki</h2>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-dark"
+          className="touch-target w-full rounded-lg bg-primary px-4 py-3 text-sm font-medium text-white hover:bg-primary-dark sm:w-auto sm:py-2"
         >
           {showForm ? "Prekliči" : "+ Dodaj uporabnika"}
         </button>
@@ -175,7 +175,34 @@ export function UsersManager() {
         </form>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-border bg-card">
+      {/* Mobilni prikaz – kartice */}
+      <div className="space-y-3 md:hidden">
+        {users.map((user) => (
+          <div key={user.id} className="rounded-xl border border-border bg-card p-4">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <p className="font-medium">{user.name}</p>
+                <p className="mt-1 break-all text-sm text-muted">{user.email}</p>
+              </div>
+              <span
+                className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${
+                  user.role === "ADMIN"
+                    ? "bg-primary/10 text-primary"
+                    : "bg-gray-100 text-gray-700"
+                }`}
+              >
+                {user.role === "ADMIN" ? "Admin" : "Osebje"}
+              </span>
+            </div>
+            <p className="mt-2 text-sm text-muted">
+              Frizer: {user.stylist?.name ?? "—"}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* Namizni prikaz – tabela */}
+      <div className="hidden overflow-x-auto rounded-xl border border-border bg-card md:block">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-border bg-background">
             <tr>

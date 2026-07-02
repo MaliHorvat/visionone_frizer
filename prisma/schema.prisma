@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  STAFF
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole @default(STAFF)
+  active       Boolean  @default(true)
+  stylistId    String?  @unique
+  stylist      Stylist? @relation(fields: [stylistId], references: [id], onDelete: SetNull)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Stylist {
+  id           String        @id @default(cuid())
+  name         String
+  bio          String?       @db.Text
+  imageUrl     String?       @db.LongText
+  active       Boolean       @default(true)
+  user         User?
+  services     Service[]
+  workingHours WorkingHour[]
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Service {
+  id           String        @id @default(cuid())
+  name         String
+  description  String?       @db.Text
+  durationMin  Int
+  priceCents   Int
+  active       Boolean       @default(true)
+  stylists     Stylist[]
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model WorkingHour {
+  id        String  @id @default(cuid())
+  stylistId String
+  stylist   Stylist @relation(fields: [stylistId], references: [id], onDelete: Cascade)
+  dayOfWeek Int
+  startTime String
+  endTime   String
+
+  @@unique([stylistId, dayOfWeek])
+}
+
+model Appointment {
+  id            String            @id @default(cuid())
+  stylistId     String
+  stylist       Stylist           @relation(fields: [stylistId], references: [id], onDelete: Cascade)
+  serviceId     String
+  service       Service           @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  customerName  String
+  customerPhone String
+  customerEmail String?
+  startTime     DateTime
+  endTime       DateTime
+  status        AppointmentStatus @default(PENDING)
+  notes         String?           @db.Text
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  @@index([stylistId, startTime])
+  @@index([startTime])
+}

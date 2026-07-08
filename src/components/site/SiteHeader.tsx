@@ -54,6 +54,12 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <Link
+            href="/admin/prijava"
+            className="hidden rounded-full border border-primary/30 px-4 py-2.5 text-sm font-medium text-primary transition hover:bg-primary hover:text-white sm:inline-flex"
+          >
+            Portal
+          </Link>
+          <Link
             href="/naroci-se"
             className="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-white transition hover:bg-primary-dark sm:inline-block"
           >
@@ -100,6 +106,13 @@ export function SiteHeader() {
                 className="touch-target mt-2 rounded-full bg-primary px-4 py-3 text-center text-sm font-medium text-white"
               >
                 Naroči se
+              </Link>
+              <Link
+                href="/admin/prijava"
+                onClick={() => setMenuOpen(false)}
+                className="touch-target rounded-full border border-primary/30 px-4 py-3 text-center text-sm font-medium text-primary"
+              >
+                Portal za frizerje
               </Link>
             </div>
           </nav>

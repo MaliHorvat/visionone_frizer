@@ -39,6 +39,12 @@ export function HeroSection() {
           >
             Naše storitve
           </Link>
+          <Link
+            href="/admin/prijava"
+            className="touch-target inline-flex items-center justify-center rounded-full border border-accent/70 px-8 py-4 text-center font-medium text-accent transition hover:bg-accent hover:text-foreground"
+          >
+            Portal za frizerje
+          </Link>
         </div>
 
         <div className="mt-12 grid max-w-lg grid-cols-2 gap-4 rounded-2xl bg-white/10 p-5 backdrop-blur-sm sm:grid-cols-3">
